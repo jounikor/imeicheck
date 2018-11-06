@@ -107,25 +107,29 @@ if __name__ == "__main__":
                 if args.show:
                     print "invalid IMEI '{:s}' on line {:d}".format(s,line)
             elif s:
-                id,cd = str2chksm(s)
-
-                if id == None:
+                if s.__len__() > 15:
                     if args.show:
-                        print "invalid IMEI '{:s}' on line {:d}".format(s,line)
-                elif cd == None:
-                    imei += 1
-
-                    if args.show:
-                        print "{:14s}{:d} <- added check digit on line {:d}".format(s,id,line)
-                    else:
-                        print "{:14s}{:d}".format(s,id) 
+                        print "too long IMEI '{:s}' on line {:d}".format(s,line)
                 else:
-                    if id != cd:
+                    id,cd = str2chksm(s)
+
+                    if id == None:
                         if args.show:
-                            print "{:15s} <- invalid check digit on line {:d} - should be {:d}".format(s,line,id)
-                    else:
-                        print s
+                            print "invalid IMEI '{:s}' on line {:d}".format(s,line)
+                    elif cd == None:
                         imei += 1
+
+                        if args.show:
+                            print "{:14s}{:d} <- added check digit on line {:d}".format(s,id,line)
+                        else:
+                            print "{:14s}{:d}".format(s,id) 
+                    else:
+                        if id != cd:
+                            if args.show:
+                                print "{:15s} <- invalid check digit on line {:d} - should be {:d}".format(s,line,id)
+                        else:
+                            print s
+                            imei += 1
 
             txt = fp.readline()
             line += 1
