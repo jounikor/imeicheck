@@ -107,9 +107,9 @@ if __name__ == "__main__":
                 if args.show:
                     print "invalid IMEI '{:s}' on line {:d}".format(s,line)
             elif s:
-                if s.__len__() > 15:
+                if s.__len__() < 14 or s.__len__() > 15:
                     if args.show:
-                        print "too long IMEI '{:s}' on line {:d}".format(s,line)
+                        print "too long or short IMEI '{:s}' on line {:d}".format(s,line)
                 else:
                     id,cd = str2chksm(s)
 
